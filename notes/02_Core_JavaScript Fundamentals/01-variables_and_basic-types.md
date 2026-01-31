@@ -1,91 +1,112 @@
-## Rule #1: Always Start with `const`
-
-### Best Practice
-- Use `const` by default
-- Use `let` **only** when reassignment is required
-- Never use `var`
-
----
-
-## Strings in TypeScript
-
-### Creating a String
-```ts
-const courseName = "ZTM TypeScript";
-
-Semicolons
-	•	JavaScript can auto-insert semicolons
-	•	Do not rely on this behavior
-
-✅ Always end statements with semicolons.
+📌 Rule:
+All TypeScript source code lives in .ts files.
 
 ⸻
 
-String Quotes (All Valid)
+## ESLint Disabled (Why?)
+
+At the top of the file, ESLint is disabled.
+
+## Why?
+- Some demo code is intentionally written “wrong”
+- ESLint would normally warn or error
+- Disabling it keeps the demo clean and focused
+
+⚠️ In real projects, you usually want ESLint enabled.
+
+⸻
+
+Rule #1: Always Start with const
+
+## Core Recommendation (from the video)
+- Use const by default
+- Switch to let only if reassignment is required
+- Never use var
+
+⸻
+
+## Strings in TypeScript
+
+## Creating a String
+
+const courseName = "ZTM TypeScript";
+
+## Semicolons
+- JavaScript can insert semicolons automatically
+- But don’t rely on it
+
+✅ Best practice: Always end statements with semicolons.
+
+⸻
+
+## String Quotes (All Valid)
 
 const a = "double quotes";
 const b = 'single quotes';
 const c = `backticks`;
 
-	•	Double quotes → valid
-	•	Single quotes → valid (very common)
-	•	Backticks → special (template literals, covered later)
+- Double quotes → OK
+- Single quotes → OK (very common in projects)
+- Backticks → special (template literals, covered later)
 
-📌 Pick one style and use it consistently.
-
-⸻
-
-No Character Type
-	•	TypeScript does not have a separate char type
-	•	One character or many → always string
+📌 Important:
+Pick one style and use it consistently across the codebase.
 
 ⸻
 
-Numbers in TypeScript
+## No “Character” Type
+
+Unlike languages like C or Rust:
+- TypeScript has no character type
+- One letter or many → always string
+
+⸻
+
+## Numbers in TypeScript
 
 const num = 42;
 const decimal = 3.14;
 
-Exponents
+## Exponents
 
 const thousand = 1e3; // 1000
 
 
 ⸻
 
-Other Number Formats (Less Common)
+## Other Number Formats (Less Common)
 
-Octal (mostly Linux permissions)
+## Octal (rare, mostly Linux permissions)
 
 const octal = 0o755;
 
-Hexadecimal
+## Hexadecimal
 
 const hex = 0xff;
 
-Binary
+## Binary
 
 const binary = 0b1010;
 
 
 ⸻
 
-BigInt (Very Large Numbers)
+## BigInt (Very Large Numbers)
 
 const big = 9007199254740991n;
 
-	•	Ends with n
-	•	Used for extremely large integers
+- Ends with n
+- Used for extremely large integers
 
 ⸻
 
-Booleans
+## Booleans
 
 const yes = true;
 const no = false;
 
-	•	true and false
-	•	Foundation of program logic
+- true / false
+- Fundamental to control flow (covered later)
 
 ⸻
 
@@ -95,21 +116,23 @@ undefined
 
 const missing = undefined;
 
-	•	Means something does not exist
-	•	Common in frontend development
+- Means something does not exist
+- Common in frontend work (DOM lookups, API data)
+
+⸻
 
 null
 
 const empty = null;
 
-	•	Means intentionally missing
-	•	Explicitly set by the programmer
+- Means we know it’s missing
+- Explicitly set by the programmer
 
-Difference
+## Key Difference
 
-Value	Meaning
+## Value	Meaning
 undefined	Missing, unknown
-null	Missing, but intentional
+null	Missing, but intentionally
 
 
 ⸻
@@ -120,10 +143,10 @@ let someNum = 0;
 someNum = 1;
 someNum = 2;
 
-✔ Reassignment allowed
-❌ Redeclaration not allowed
+✔ Reassignment is allowed
+❌ Redeclaration is not
 
-let someNum = 5; // Error
+let someNum = 5; // ❌ Error
 
 
 ⸻
@@ -131,93 +154,100 @@ let someNum = 5; // Error
 const — No Reassignment
 
 const empty = null;
-empty = undefined; // Error
+empty = undefined; // ❌ Error
 
-	•	const allows only one assignment
+## Reason:
+- const can only be assigned once
 
 ⸻
 
-Variable Shadowing
+## Variable Shadowing (Advanced but Important)
 
-What Is Shadowing?
+## What Is Shadowing?
 
-Redeclaring a variable inside a block using the same name.
+Creating a new variable inside a block with the same name.
 
 let someNum = 2;
 
 {
   let someNum = 5; // shadows outer variable
-  // someNum === 5
+  // here, someNum === 5
 }
 
-// someNum === 2
+// here, someNum === 2
 
-Explanation
-	•	Inner scope hides the outer variable
-	•	Outer variable still exists
-	•	Inner scope ignores it temporarily
+## What’s Happening?
+- Inner block temporarily hides the outer variable
+- Outer variable still exists in memory
+- Inner scope ignores it
 
-When Useful?
-	•	Mostly in test code
-	•	Helps keep test cases clean
+## When Is This Useful?
+- Mostly in test code
+- Cleaner test cases without creating many variable names
 
 ⸻
 
-Uninitialized Variables
+## Uninitialized Variables
 
-Using let
-
-let greeting;
-
-	•	No initial value
-	•	Useful when value depends on later logic
-
-Example:
+## Using let
 
 let greeting;
 
-// later in code
+- No value assigned yet
+- Useful when value depends on future logic
+
+## Example Use Case
+
+let greeting;
+
+// later...
 greeting = "Hi";
+// or "Hey"
+// or "Hello"
 
-📌 TypeScript throws an error if you try to use it before assignment.
+📌 TypeScript Safety
+- TypeScript errors if you try to use an uninitialized variable
+- Prevents accidental runtime bugs
 
 ⸻
 
 ❌ const Cannot Be Uninitialized
 
-const whoops; // Error
+const whoops; // ❌ Error
 
-Correct usage:
+## Why?
+- const only allows one chance to assign
+
+✔ Correct usage:
 
 const whoops = 3;
 
-Rule
-	•	Need uninitialized → use let
-	•	Have value immediately → use const
+## Rule
+- Need uninitialized → use let
+- Have value immediately → use const
 
 ⸻
 
-Final Rules Summary
+## Final Rules Summary
 
-Variable Rules
-	•	✅ const by default
-	•	🔁 let when reassignment is needed
-	•	🚫 Never use var
+## Variable Rules
+- ✅ const by default
+- 🔁 let if reassignment is needed
+- 🚫 Never use var
 
-Primitive Types Covered
-	•	string
-	•	number
-	•	bigint
-	•	boolean
-	•	undefined
-	•	null
-
-⸻
-
-Key Takeaways
-	•	Variables give names to memory-stored data
-	•	TypeScript enforces safer reassignment rules
-	•	Scope and shadowing are powerful tools
-	•	Many bugs are caught before runtime
+## Primitive Types Covered
+- string
+- number
+- bigint
+- boolean
+- undefined
+- null
 
 ⸻
+
+## Key Takeaways
+- Variables name data in memory so you don’t track memory yourself
+- TypeScript enforces safer rules around reassignment and usage
+- Scope and shadowing are powerful—but should be used carefully
+- TypeScript helps catch mistakes before code runs
+
